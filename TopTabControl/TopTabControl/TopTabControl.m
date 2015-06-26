@@ -147,7 +147,7 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierContent forIndexPath:indexPath];
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)]) {
-      TopTabPage *page = [self.datasource topTabControl:self pageAtIndex:indexPath.item];
+      UIView *page = [self.datasource topTabControl:self pageAtIndex:indexPath.item];
       cell.contentView.backgroundColor = [UIColor randomColor];
       [cell.contentView addSubview:page];
     }
@@ -159,7 +159,7 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
   [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)])
   {
-    TopTabMenuItem *item = [self.datasource topTabControl:self itemAtIndex:indexPath.item];
+    UIView *item = [self.datasource topTabControl:self itemAtIndex:indexPath.item];
     cell.contentView.backgroundColor = [UIColor randomColor];
     [cell.contentView addSubview:item];
     return cell;

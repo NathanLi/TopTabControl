@@ -14,8 +14,6 @@
 #endif
 
 #import <UIKit/UIKit.h>
-#import "TopTabMenuItem.h"
-#import "TopTabPage.h"
 
 
 @class TopTabControl;
@@ -63,8 +61,7 @@
  *
  *  @return 返回单个菜单项
  */
-- (TopTabMenuItem *)topTabControl:(TopTabControl *)tabCtrl
-                      itemAtIndex:(NSUInteger)index;
+- (UIView *)topTabControl:(TopTabControl *)tabCtrl itemAtIndex:(NSUInteger)index;
 
 
 /**
@@ -75,8 +72,7 @@
  *
  *  @return 返回单个菜单页
  */
-- (TopTabPage *)topTabControl:(TopTabControl *)tabCtrl
-                      pageAtIndex:(NSUInteger)index;
+- (UIView *)topTabControl:(TopTabControl *)tabCtrl pageAtIndex:(NSUInteger)index;
 
 @end
 

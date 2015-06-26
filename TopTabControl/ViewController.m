@@ -90,10 +90,10 @@
  *
  *  @return 返回单个菜单项
  */
-- (TopTabMenuItem *)topTabControl:(TopTabControl *)tabCtrl
+- (UIView *)topTabControl:(TopTabControl *)tabCtrl
                       itemAtIndex:(NSUInteger)index
 {
-    TopTabMenuItem *topItem = [[TopTabMenuItem alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    UIView *topItem = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     topItem.backgroundColor = [UIColor randomColor];
     UILabel *label = [[UILabel alloc] initWithFrame:topItem.bounds];
     label.text = [NSString stringWithFormat:@"%ld",index];
@@ -111,10 +111,10 @@
  *
  *  @return 返回单个菜单页
  */
-- (TopTabPage *)topTabControl:(TopTabControl *)tabCtrl
+- (UIView *)topTabControl:(TopTabControl *)tabCtrl
                       pageAtIndex:(NSUInteger)index
 {
-    TopTabPage *page = [[TopTabPage alloc] initWithFrame:CGRectMake(0,
+    UIView *page = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                    0,
                                                                    CGRectGetWidth(self.view.frame),
                                                                    CGRectGetHeight(self.view.bounds) - 64 - 30
