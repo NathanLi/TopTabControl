@@ -18,7 +18,6 @@
 		B8D0C0131A3967C300290CB1 /* TopTabMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C0121A3967C300290CB1 /* TopTabMenuItem.m */; };
 		B8D0C0161A3968B100290CB1 /* TopTabPage.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C0151A3968B100290CB1 /* TopTabPage.m */; };
 		B8D0C0291A3979C200290CB1 /* UIColor+RandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C0281A3979C200290CB1 /* UIColor+RandomColor.m */; };
-		B8D0C02B1A3993B700290CB1 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B8D0C02A1A3993B700290CB1 /* test.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +44,6 @@
 		B8D0BFFC1A394AE900290CB1 /* TopTabControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TopTabControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D0C0011A394AE900290CB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8D0C0021A394AE900290CB1 /* TopTabControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopTabControlTests.m; sourceTree = "<group>"; };
-		B8D0C00D1A394CBB00290CB1 /* TopTabControlDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopTabControlDefine.h; sourceTree = "<group>"; };
 		B8D0C00E1A394CF800290CB1 /* TopTabControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTabControl.h; sourceTree = "<group>"; };
 		B8D0C00F1A394CF800290CB1 /* TopTabControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTabControl.m; sourceTree = "<group>"; };
 		B8D0C0111A3967C300290CB1 /* TopTabMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTabMenuItem.h; sourceTree = "<group>"; };
@@ -54,7 +52,6 @@
 		B8D0C0151A3968B100290CB1 /* TopTabPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTabPage.m; sourceTree = "<group>"; };
 		B8D0C0271A3979C200290CB1 /* UIColor+RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RandomColor.h"; sourceTree = "<group>"; };
 		B8D0C0281A3979C200290CB1 /* UIColor+RandomColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RandomColor.m"; sourceTree = "<group>"; };
-		B8D0C02A1A3993B700290CB1 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test.jpg; path = ../../../../Downloads/test.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +93,6 @@
 		B8D0BFE51A394AE900290CB1 /* TopTabControl */ = {
 			isa = PBXGroup;
 			children = (
-				B8D0C02A1A3993B700290CB1 /* test.jpg */,
 				B8D0C00C1A394B8200290CB1 /* TopTabControlSrc */,
 				B8D0BFEA1A394AE900290CB1 /* AppDelegate.h */,
 				B8D0BFEB1A394AE900290CB1 /* AppDelegate.m */,
@@ -139,7 +135,6 @@
 		B8D0C00C1A394B8200290CB1 /* TopTabControlSrc */ = {
 			isa = PBXGroup;
 			children = (
-				B8D0C00D1A394CBB00290CB1 /* TopTabControlDefine.h */,
 				B8D0C00E1A394CF800290CB1 /* TopTabControl.h */,
 				B8D0C00F1A394CF800290CB1 /* TopTabControl.m */,
 				B8D0C0111A3967C300290CB1 /* TopTabMenuItem.h */,
@@ -236,7 +231,6 @@
 				B8D0BFF21A394AE900290CB1 /* Main.storyboard in Resources */,
 				B8D0BFF71A394AE900290CB1 /* LaunchScreen.xib in Resources */,
 				B8D0BFF41A394AE900290CB1 /* Images.xcassets in Resources */,
-				B8D0C02B1A3993B700290CB1 /* test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +379,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TopTabControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -395,6 +390,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TopTabControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

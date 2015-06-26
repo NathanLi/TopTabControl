@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "TopTabControlDefine.h"
+#import "TopTabControl.h"
+#import "UIColor+RandomColor.h"
 
 @interface ViewController ()<TopTabControlDataSource>
 
@@ -46,7 +47,7 @@
  *
  *  @return 高度（像素）
  */
-- (CGFloat)TopTabHeight:(TopTabControl *)tabCtrl
+- (CGFloat)topTabHeight:(TopTabControl *)tabCtrl
 {
     
     return 30;
@@ -60,7 +61,7 @@
  *
  *  @return 高度（像素）
  */
-- (CGFloat)TopTabWidth:(TopTabControl *)tabCtrl
+- (CGFloat)topTabWidth:(TopTabControl *)tabCtrl
 {
     return 60;
 }
@@ -73,7 +74,7 @@
  *
  *  @return 返回菜单的个数
  */
-- (NSInteger)TopTabMenuCount:(TopTabControl *)tabCtrl
+- (NSInteger)topTabMenuCount:(TopTabControl *)tabCtrl
 {
     return 30;
 }
@@ -88,7 +89,7 @@
  *
  *  @return 返回单个菜单项
  */
-- (TopTabMenuItem *)TopTabControl:(TopTabControl *)tabCtrl
+- (TopTabMenuItem *)topTabControl:(TopTabControl *)tabCtrl
                       itemAtIndex:(NSUInteger)index
 {
     TopTabMenuItem *topItem = [[TopTabMenuItem alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
@@ -109,7 +110,7 @@
  *
  *  @return 返回单个菜单页
  */
-- (TopTabPage *)TopTabControl:(TopTabControl *)tabCtrl
+- (TopTabPage *)topTabControl:(TopTabControl *)tabCtrl
                       pageAtIndex:(NSUInteger)index
 {
     TopTabPage *page = [[TopTabPage alloc] initWithFrame:CGRectMake(0,
