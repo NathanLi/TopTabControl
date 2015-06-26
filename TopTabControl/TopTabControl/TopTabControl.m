@@ -7,7 +7,6 @@
 //
 
 #import "TopTabControl.h"
-#import "UIColor+RandomColor.h"
 
 /** @brief 顶部菜单栏默认的高度 */
 static int const kTopTabControl_Default_TopMenuHeight = 20;
@@ -148,7 +147,6 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)]) {
       UIView *page = [self.datasource topTabControl:self pageAtIndex:indexPath.item];
-      cell.contentView.backgroundColor = [UIColor randomColor];
       [cell.contentView addSubview:page];
     }
 
@@ -160,7 +158,6 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
   if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)])
   {
     UIView *item = [self.datasource topTabControl:self itemAtIndex:indexPath.item];
-    cell.contentView.backgroundColor = [UIColor randomColor];
     [cell.contentView addSubview:item];
     return cell;
   }

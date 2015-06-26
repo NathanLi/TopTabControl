@@ -15,7 +15,7 @@
 		B8D0BFF71A394AE900290CB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D0BFF51A394AE900290CB1 /* LaunchScreen.xib */; };
 		B8D0C0031A394AE900290CB1 /* TopTabControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C0021A394AE900290CB1 /* TopTabControlTests.m */; };
 		B8D0C0101A394CF800290CB1 /* TopTabControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C00F1A394CF800290CB1 /* TopTabControl.m */; };
-		B8D0C0291A3979C200290CB1 /* UIColor+RandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D0C0281A3979C200290CB1 /* UIColor+RandomColor.m */; };
+		D8591A5F1B3D3A4E0044FB74 /* UIColor+RandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D8591A5E1B3D3A4E0044FB74 /* UIColor+RandomColor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,8 +44,8 @@
 		B8D0C0021A394AE900290CB1 /* TopTabControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopTabControlTests.m; sourceTree = "<group>"; };
 		B8D0C00E1A394CF800290CB1 /* TopTabControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTabControl.h; sourceTree = "<group>"; };
 		B8D0C00F1A394CF800290CB1 /* TopTabControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTabControl.m; sourceTree = "<group>"; };
-		B8D0C0271A3979C200290CB1 /* UIColor+RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RandomColor.h"; sourceTree = "<group>"; };
-		B8D0C0281A3979C200290CB1 /* UIColor+RandomColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RandomColor.m"; sourceTree = "<group>"; };
+		D8591A5D1B3D3A4E0044FB74 /* UIColor+RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RandomColor.h"; sourceTree = "<group>"; };
+		D8591A5E1B3D3A4E0044FB74 /* UIColor+RandomColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RandomColor.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,9 @@
 		B8D0BFE51A394AE900290CB1 /* TopTabControl */ = {
 			isa = PBXGroup;
 			children = (
-				B8D0C00C1A394B8200290CB1 /* TopTabControlSrc */,
+				B8D0C00C1A394B8200290CB1 /* TopTabControl */,
+				D8591A5D1B3D3A4E0044FB74 /* UIColor+RandomColor.h */,
+				D8591A5E1B3D3A4E0044FB74 /* UIColor+RandomColor.m */,
 				B8D0BFEA1A394AE900290CB1 /* AppDelegate.h */,
 				B8D0BFEB1A394AE900290CB1 /* AppDelegate.m */,
 				B8D0BFED1A394AE900290CB1 /* ViewController.h */,
@@ -126,15 +128,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B8D0C00C1A394B8200290CB1 /* TopTabControlSrc */ = {
+		B8D0C00C1A394B8200290CB1 /* TopTabControl */ = {
 			isa = PBXGroup;
 			children = (
 				B8D0C00E1A394CF800290CB1 /* TopTabControl.h */,
 				B8D0C00F1A394CF800290CB1 /* TopTabControl.m */,
-				B8D0C0271A3979C200290CB1 /* UIColor+RandomColor.h */,
-				B8D0C0281A3979C200290CB1 /* UIColor+RandomColor.m */,
 			);
-			name = TopTabControlSrc;
 			path = TopTabControl;
 			sourceTree = "<group>";
 		};
@@ -239,9 +238,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8D0BFEF1A394AE900290CB1 /* ViewController.m in Sources */,
+				D8591A5F1B3D3A4E0044FB74 /* UIColor+RandomColor.m in Sources */,
 				B8D0C0101A394CF800290CB1 /* TopTabControl.m in Sources */,
 				B8D0BFEC1A394AE900290CB1 /* AppDelegate.m in Sources */,
-				B8D0C0291A3979C200290CB1 /* UIColor+RandomColor.m in Sources */,
 				B8D0BFE91A394AE900290CB1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
