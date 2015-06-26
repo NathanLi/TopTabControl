@@ -82,6 +82,8 @@
 
 @interface TopTabControl : UIView
 
+@property (nonatomic, strong, readonly) UICollectionView *collectionViewTopMenu;
+
 /** @brief 数据源 */
 @property (nonatomic, weak) id<TopTabControlDataSource> datasource;
 

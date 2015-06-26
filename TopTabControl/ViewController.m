@@ -26,6 +26,7 @@
     tabCtrl.datasource = self;
     [tabCtrl reloadData];
     tabCtrl.showIndicatorView = YES;
+  tabCtrl.collectionViewTopMenu.contentInset = UIEdgeInsetsMake(0, 0, 0, 100);
     [self.view addSubview:tabCtrl];
     
     
@@ -63,7 +64,7 @@
  */
 - (CGFloat)topTabWidth:(TopTabControl *)tabCtrl
 {
-    return 60;
+    return 100;
 }
 
 
@@ -92,7 +93,7 @@
 - (TopTabMenuItem *)topTabControl:(TopTabControl *)tabCtrl
                       itemAtIndex:(NSUInteger)index
 {
-    TopTabMenuItem *topItem = [[TopTabMenuItem alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
+    TopTabMenuItem *topItem = [[TopTabMenuItem alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     topItem.backgroundColor = [UIColor randomColor];
     UILabel *label = [[UILabel alloc] initWithFrame:topItem.bounds];
     label.text = [NSString stringWithFormat:@"%ld",index];

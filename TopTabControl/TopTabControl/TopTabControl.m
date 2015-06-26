@@ -15,18 +15,17 @@ static int const kTopTabControl_Default_TopMenuWidth  = 60;
 static int const kTopTabControl_Default_IndicatorHeight = 2;
 
 
-@interface TopTabControl()<UITableViewDataSource,UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface TopTabControl()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 /** @brief 顶部菜单栏横向滑动的collection view */
 @property (nonatomic, strong) UICollectionView *collectionViewTopMenu;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayoutTopMenu;
 @property (nonatomic, strong) NSString *identifierTopMenu;
 
-/** @brief 菜单下面横向滑动内容的table */
-@property (nonatomic, strong) UITableView *contentTableView;
-
 /** @brief 顶部菜单栏横向滑动的collection view */
-@property (nonatomic, strong) UICollectionView *clvContent;
+@property (nonatomic, strong) UICollectionView *collectionViewContent;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayoutContent;
+@property (nonatomic, strong) NSString *identifierContent;
 
 /** @brief 指示器view */
 @property (nonatomic, strong) UIView *indicatorView;
@@ -87,26 +86,36 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 }
 
 
-- (UITableView *)contentTableView {
-  if(nil == _contentTableView) {
-    CGFloat contentHeight = CGRectGetWidth(self.frame);
-    CGFloat contentWidth  = CGRectGetHeight(self.frame) - [self _topMenuHeight];
-    CGFloat x = CGRectGetWidth(self.frame)/2 - contentWidth/2;
-    CGFloat y = (CGRectGetHeight(self.frame) - [self _topMenuHeight])/2 - contentHeight/2 + ([self _topMenuHeight]);
-    CGRect contentRect = CGRectMake(x, y, contentWidth, contentHeight);
-    _contentTableView = [[UITableView alloc] initWithFrame:contentRect
-                                                     style:UITableViewStylePlain];
-    [self addSubview:_contentTableView];
+- (UICollectionView *)collectionViewContent {
+  if (nil == _collectionViewContent) {
+    CGFloat left = .0;
+    CGFloat top = [self _topMenuHeight];
+    CGFloat width = CGRectGetWidth(self.frame);
+    CGFloat height = CGRectGetHeight(self.frame) - top;
+    CGRect rect = CGRectMake(left, top, width, height);
+    _collectionViewContent = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:self.flowLayoutContent];
+    _collectionViewContent.dataSource = self;
+    _collectionViewContent.delegate = self;
+    _collectionViewContent.pagingEnabled = YES;
+    _collectionViewContent.backgroundColor = [UIColor clearColor];
+    self.identifierContent = @"identifierContent";
+    [_collectionViewContent registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:self.identifierContent];
+    [_collectionViewContent setShowsHorizontalScrollIndicator:NO];
     
-    _contentTableView.backgroundColor = [UIColor randomColor];
-    _contentTableView.dataSource = self;
-    _contentTableView.delegate = self;
-    _contentTableView.showsVerticalScrollIndicator = NO;
-    _contentTableView.pagingEnabled = YES;
-    _contentTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+    [self addSubview:_collectionViewContent];
   }
-  
-  return _contentTableView;
+  return _collectionViewContent;
+}
+
+- (UICollectionViewFlowLayout *)flowLayoutContent {
+  if (!_flowLayoutContent) {
+    _flowLayoutContent = [[UICollectionViewFlowLayout alloc] init];
+    _flowLayoutContent.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _flowLayoutContent.minimumLineSpacing = .0;
+    _flowLayoutContent.minimumInteritemSpacing = .0;
+    _flowLayoutContent.sectionInset = UIEdgeInsetsZero;
+  }
+  return _flowLayoutContent;
 }
 
 - (UIView *)indicatorView
@@ -134,6 +143,18 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (collectionView == self.collectionViewContent) {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierContent forIndexPath:indexPath];
+    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)]) {
+      TopTabPage *page = [self.datasource topTabControl:self pageAtIndex:indexPath.item];
+      cell.contentView.backgroundColor = [UIColor randomColor];
+      [cell.contentView addSubview:page];
+    }
+
+    return cell;
+  }
+  
   UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierTopMenu forIndexPath:indexPath];
   [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)])
@@ -148,145 +169,69 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (collectionView == self.collectionViewContent) {
+    return;
+  }
+  
   [self contentTablesSrollToIndexPath:indexPath];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (collectionView == self.collectionViewContent) {
+    CGFloat with = CGRectGetWidth(self.frame);
+    CGFloat height = CGRectGetHeight(self.frame) - [self _topMenuHeight];
+    return CGSizeMake(with, height);
+  }
+  
   CGFloat width = [self _topMenuWidth];
   CGFloat height = [self _topMenuHeight];
   return CGSizeMake(width, height);
 }
 
-#pragma mark - UITableView Datasource
 
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
-{
-  if([self.datasource respondsToSelector:@selector(topTabMenuCount:)])
-  {
-    return [self.datasource topTabMenuCount:self];
-  }
-  return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  if(tableView == _contentTableView)
-  {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContentPageCell"];
-    if(cell == nil)
-    {
-      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                    reuseIdentifier:@"ContentPageCell"];
-      cell.frame = CGRectMake(0,
-                              0,
-                              CGRectGetHeight(self.frame) - [self _topMenuHeight],
-                              CGRectGetWidth(self.frame));
-    }
-    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)
-                                                 withObject:nil];
-    if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)])
-    {
-      TopTabPage *page = [self.datasource topTabControl:self
-                                            pageAtIndex:indexPath.row];
-      cell.contentView.backgroundColor = [UIColor randomColor];
-      [cell.contentView addSubview:page];
-      CGFloat x = (CGRectGetWidth(cell.frame) - CGRectGetWidth(page.frame))/2;
-      CGFloat y = (CGRectGetHeight(cell.frame) - CGRectGetHeight(page.frame))/2;
-      page.frame = CGRectMake(x,
-                              y,
-                              CGRectGetWidth(page.frame),
-                              CGRectGetHeight(page.frame));
-      page.transform = CGAffineTransformMakeRotation(M_PI / 2);
-    }
-    return cell;
-    
-  }
-  
-  return [[UITableViewCell alloc] initWithFrame:CGRectZero];
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  if(tableView == self.collectionViewTopMenu)
-  {
-    return [self _topMenuWidth];
-  }
-  
-  if (tableView == self.contentTableView) {
-    return CGRectGetWidth(self.frame);
-  }
-  return 0;
-}
-
-
-
-#pragma mark - UItableView Delegate
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-  if(scrollView == self.contentTableView)
-  {
-    NSUInteger tempPage = (self.contentTableView.contentOffset.y + 0.5*CGRectGetWidth(self.frame))/CGRectGetWidth(self.frame);
-    if(tempPage != self.pageIndex)
-      _pageIndex = tempPage;
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  if(scrollView == self.collectionViewContent) {
+    NSUInteger currentPage = (self.collectionViewContent.contentOffset.x + 0.5*CGRectGetWidth(self.frame))/CGRectGetWidth(self.frame);
+    if(currentPage != self.pageIndex)
+      _pageIndex = currentPage;
     [self updateIndicatorPosition];
   }
 }
 
-
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-  if(scrollView == self.contentTableView)
-  {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+  if(scrollView == self.collectionViewContent) {
     [self handleEndScroll];
   }
-  
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-  if(scrollView == self.contentTableView)
-  {
-    if(!decelerate)
-    {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+  if(scrollView == self.collectionViewContent) {
+    if(!decelerate) {
       [self handleEndScroll];
     }
   }
 }
 
 #pragma mark - public method
-
-- (void)reloadData
-{
+- (void)reloadData {
   [self.collectionViewTopMenu reloadData];
-  [self.contentTableView reloadData];
+  [self.collectionViewContent reloadData];
 }
 
 
-- (void)setShowIndicatorView:(BOOL)showIndicatorView
-{
+- (void)setShowIndicatorView:(BOOL)showIndicatorView {
   _showIndicatorView = showIndicatorView;
-  if(showIndicatorView)
-  {
+  if(showIndicatorView) {
     [[self indicatorView] setHidden:NO];;
     [self.collectionViewTopMenu bringSubviewToFront:[self indicatorView]];
-  }
-  else
-  {
+  } else {
     [[self indicatorView] setHidden:YES];
   }
   
 }
 
-
-- (void)displayPageAtIndex:(NSUInteger)pageIndex
-{
+- (void)displayPageAtIndex:(NSUInteger)pageIndex {
   [self contentTablesSrollToIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]];
 }
 
@@ -326,7 +271,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
   if(self.showIndicatorView)
   {
     
-    CGFloat x = self.contentTableView.contentOffset.y / self.contentTableView.contentSize.height;
+    CGFloat x = self.collectionViewContent.contentOffset.x / self.collectionViewContent.contentSize.width;
     CGFloat height = kTopTabControl_Default_IndicatorHeight;
     CGFloat y = [self _topMenuHeight] - height;
     CGFloat widht = [self _topMenuWidth];
@@ -341,7 +286,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)handleEndScroll
 {
   NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.pageIndex inSection:0];
-  [self.collectionViewTopMenu scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+  UICollectionViewLayoutAttributes *layoutAttributes = [self.collectionViewTopMenu.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
+  CGFloat centerX = CGRectGetMidX(layoutAttributes.frame);
+  CGFloat x = MAX(centerX - (CGRectGetWidth(self.collectionViewTopMenu.frame) / 2.0), 0);
+  CGPoint offset = CGPointMake(x, 0);
+  [self.collectionViewTopMenu setContentOffset:offset animated:YES];
 }
 
 
@@ -352,13 +301,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)contentTablesSrollToIndexPath:(NSIndexPath *)indexPath
 {
-  //    if(indexPath.row >= max)
-  //    {
-  //
-  //    }
-  [self.contentTableView scrollToRowAtIndexPath:indexPath
-                               atScrollPosition:UITableViewScrollPositionMiddle
-                                       animated:NO];
+  [self.collectionViewContent scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
   [self performSelector:@selector(handleEndScroll) withObject:nil afterDelay:0.25];
 }
 
