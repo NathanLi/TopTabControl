@@ -52,7 +52,24 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 }
 
 #pragma mark - UIKIT
-
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  
+  if (CGRectGetWidth(self.collectionViewTopMenu.frame) != CGRectGetWidth(self.frame)) {
+    CGRect frame = self.collectionViewTopMenu.frame;
+    frame.size.width = CGRectGetWidth(self.frame);
+    self.collectionViewTopMenu.frame = frame;
+  }
+  
+  CGFloat wantHeight = MAX(CGRectGetHeight(self.frame) - CGRectGetHeight(self.collectionViewTopMenu.frame), 0);
+  if (CGRectGetWidth(self.collectionViewContent.frame) != CGRectGetWidth(self.frame)
+      || CGRectGetHeight(self.collectionViewContent.frame) != wantHeight) {
+    CGRect frame = self.collectionViewContent.frame;
+    frame.size.width = CGRectGetWidth(self.frame);
+    frame.size.height = wantHeight;
+    self.collectionViewContent.frame = frame;
+  }
+}
 
 
 

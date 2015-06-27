@@ -20,9 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    TopTabControl *tabCtrl = [[TopTabControl alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds
-                                                                                                                                      
-))];
+    TopTabControl *tabCtrl = [[TopTabControl alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-64)];
     tabCtrl.datasource = self;
     [tabCtrl reloadData];
     tabCtrl.showIndicatorView = YES;
