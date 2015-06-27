@@ -159,29 +159,35 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+  UICollectionViewCell *cell = nil;
+  UIView *content = nil;
   if (collectionView == self.collectionViewContent) {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierContent forIndexPath:indexPath];
-    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierContent forIndexPath:indexPath];
     if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)]) {
       UIView *page = [self.datasource topTabControl:self pageAtIndex:indexPath.item];
-      [cell.contentView addSubview:page];
+      content = page;
     }
-
-    return cell;
+  } else {
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierTopMenu forIndexPath:indexPath];
+    if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)]) {
+      UIView *item = [self.datasource topTabControl:self itemAtIndex:indexPath.item];
+      content = item;
+    }
   }
   
-  UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.identifierTopMenu forIndexPath:indexPath];
-  [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-  if([self.datasource respondsToSelector:@selector(topTabControl:itemAtIndex:)])
-  {
-    UIView *item = [self.datasource topTabControl:self itemAtIndex:indexPath.item];
-    [cell.contentView addSubview:item];
-    return cell;
+  [self _addContent:content forCell:cell];
+  
+  /**
+   *  @brief  如果是iOS 8.0 以下
+   */
+  if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+    [self collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
   }
-  return cell;
+  
+  return cell ?: [UICollectionViewCell new];
 }
 
-#pragma mark - UICollectionViewDelegateFlowLayout
+#pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
   if (collectionView == self.collectionViewContent) {
     return;
@@ -190,6 +196,23 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
   [self contentTablesSrollToIndexPath:indexPath];
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (collectionView == self.collectionViewContent) {
+    if ([self.delegate respondsToSelector:@selector(topTabControl:willDisplayPage:forIndex:)]) {
+      [self.delegate topTabControl:self willDisplayPage:[self _contentOfCell:cell] forIndex:indexPath.item];
+    }
+  }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (collectionView == self.collectionViewContent) {
+    if ([self.delegate respondsToSelector:@selector(topTabControl:didDisplayPage:forIndex:)]) {
+      [self.delegate topTabControl:self didDisplayPage:[self _contentOfCell:cell] forIndex:indexPath.item];
+    }
+  }
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
   if (collectionView == self.collectionViewContent) {
     CGFloat with = CGRectGetWidth(self.frame);
@@ -317,6 +340,28 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
 {
   [self.collectionViewContent scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
   [self performSelector:@selector(handleEndScroll) withObject:nil afterDelay:0.25];
+}
+
+/**
+ *  @brief  获取 cell 中的内容
+ *
+ *  @param cell 要获取的 cell
+ *
+ *  @return 视图
+ */
+- (UIView *)_contentOfCell:(UICollectionViewCell *)cell {
+  return [[[cell contentView] subviews] firstObject];
+}
+
+/**
+ *  @brief   将页面加入到 cell 中
+ *
+ *  @param content 要加入到 cell 中的内容
+ *  @param cell 要加入内容的 cell
+ */
+- (void)_addContent:(UIView *)content forCell:(UICollectionViewCell *)cell {
+  [[[cell contentView] subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+  [[cell contentView] addSubview:content];
 }
 
 @end

@@ -112,6 +112,7 @@
 - (UIView *)topTabControl:(TopTabControl *)tabCtrl
                       pageAtIndex:(NSUInteger)index
 {
+  NSLog(@"返回第 %lu 个 view", (unsigned long)index);
     UIView *page = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                    0,
                                                                    CGRectGetWidth(self.view.frame),

@@ -76,12 +76,40 @@
 
 @end
 
+/**
+ *  @brief  TopTablControl 委托
+ */
+@protocol TopTabControlDelegate <NSObject>
+
+/**
+ *  @brief  将要展示第几个菜单对应的内容
+ *
+ *  @param tabCtrl tab控件
+ *  @param index   菜单的index, 从0开始
+ */
+- (void)topTabControl:(TopTabControl *)tabCtrl willDisplayPage:(UIView *)page forIndex:(NSUInteger)index;
+
+/**
+ *  @brief  已展示第几个菜单对应的内容
+ *
+ *  @param tabCtrl tab控件
+ *  @param index   菜单的 index, 从0开始
+ */
+- (void)topTabControl:(TopTabControl *)tabCtrl didDisplayPage:(UIView *)page forIndex:(NSUInteger)index;
+
+@end
+
 @interface TopTabControl : UIView
 
 @property (nonatomic, strong, readonly) UICollectionView *collectionViewTopMenu;
 
 /** @brief 数据源 */
 @property (nonatomic, weak) id<TopTabControlDataSource> datasource;
+
+/**
+ *  @brief  委托
+ */
+@property (nonatomic, weak) id<TopTabControlDelegate> delegate;
 
 /** @brief 页码 */
 @property (nonatomic, assign, readonly) NSUInteger pageIndex;
