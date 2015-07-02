@@ -18,6 +18,8 @@
 
 @class TopTabControl;
 
+extern int const kTopTabControl_Default_TopMenuHeight;
+
 /** @brief TopTabControl datasource 需要支持的协议 */
 @protocol TopTabControlDataSource<NSObject>
 
@@ -30,7 +32,7 @@
  *
  *  @return 高度（像素）
  */
-- (CGFloat)topTabHeight:(TopTabControl *)tabCtrl;
+- (CGFloat)topTabMenuHeight:(TopTabControl *)tabCtrl;
 
 /**
  *  得到顶部菜单栏的宽度
@@ -39,7 +41,7 @@
  *
  *  @return 高度（像素）
  */
-- (CGFloat)topTabWidth:(TopTabControl *)tabCtrl;
+- (CGFloat)topTabMenuWidth:(TopTabControl *)tabCtrl;
 
 
 /**
@@ -81,6 +83,7 @@
  */
 @protocol TopTabControlDelegate <NSObject>
 
+@optional
 /**
  *  @brief  将要展示第几个菜单对应的内容
  *

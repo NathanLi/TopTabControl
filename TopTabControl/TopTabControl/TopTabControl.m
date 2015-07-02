@@ -9,7 +9,7 @@
 #import "TopTabControl.h"
 
 /** @brief 顶部菜单栏默认的高度 */
-static int const kTopTabControl_Default_TopMenuHeight = 20;
+int const kTopTabControl_Default_TopMenuHeight = 36;
 static int const kTopTabControl_Default_TopMenuWidth  = 60;
 static int const kTopTabControl_Default_IndicatorHeight = 2;
 
@@ -143,7 +143,7 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
     CGFloat y = [self _topMenuHeight] - kTopTabControl_Default_IndicatorHeight;
     CGRect  rect = CGRectMake(0, y, width, height);
     _indicatorView = [[UIView alloc] initWithFrame:rect];
-    _indicatorView.backgroundColor = [UIColor yellowColor];
+    _indicatorView.backgroundColor = [UIColor colorWithRed:0.796 green:0.361 blue:0.369 alpha:1];
     [self.collectionViewTopMenu addSubview:_indicatorView];
   }
   return _indicatorView;
@@ -281,8 +281,8 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
  */
 - (CGFloat)_topMenuHeight {
   CGFloat topMenuHeight = kTopTabControl_Default_TopMenuHeight;
-  if([self.datasource respondsToSelector:@selector(topTabHeight:)]) {
-    topMenuHeight = [self.datasource topTabHeight:self];
+  if([self.datasource respondsToSelector:@selector(topTabMenuHeight:)]) {
+    topMenuHeight = [self.datasource topTabMenuHeight:self];
   }
   return topMenuHeight;
 }
@@ -293,8 +293,8 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
  *  @return 宽度
  */
 - (CGFloat)_topMenuWidth {
-  if([self.datasource respondsToSelector:@selector(topTabWidth:)]) {
-    return [self.datasource topTabWidth:self];
+  if([self.datasource respondsToSelector:@selector(topTabMenuWidth:)]) {
+    return [self.datasource topTabMenuWidth:self];
   }
   
   return kTopTabControl_Default_TopMenuWidth;
@@ -326,6 +326,10 @@ static int const kTopTabControl_Default_IndicatorHeight = 2;
   UICollectionViewLayoutAttributes *layoutAttributes = [self.collectionViewTopMenu.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
   CGFloat centerX = CGRectGetMidX(layoutAttributes.frame);
   CGFloat x = MAX(centerX - (CGRectGetWidth(self.collectionViewTopMenu.frame) / 2.0), 0);
+  
+  CGFloat topMenuCountWidth = self.collectionViewTopMenu.contentSize.width + self.collectionViewTopMenu.contentInset.right + self.collectionViewTopMenu.contentInset.left;
+  CGFloat maxX = topMenuCountWidth - CGRectGetWidth(self.collectionViewTopMenu.frame);
+  x = MIN(x, maxX);
   CGPoint offset = CGPointMake(x, 0);
   [self.collectionViewTopMenu setContentOffset:offset animated:YES];
 }
